@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>CRUD RealTime DB</title>
+
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-database.js"></script>
+    <script type="text/javascript">
+
+        user_id = "123456"
+        user_name = "João da Silva"
+        user_email = "joaozinho@ic.ufal.br"
+        user_count = 0
+
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBoBpMBgmqNrAYt8O6VtPrU6CVCTrihm_8",
+            authDomain: "crud-4e64d.firebaseapp.com",
+            databaseURL: "https://crud-4e64d.firebaseio.com",
+            projectId: "crud-4e64d",
+            storageBucket: "crud-4e64d.appspot.com",
+            messagingSenderId: "1065725358342",
+            appId: "1:1065725358342:web:b57f391445b9468d6c2e87"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+
+
+        function delete_user(){
+            firebase.database().ref('users/' + user_id).remove()
+        }
+
+        function create_user(){
+            firebase.database().ref('users/' + user_id).set({
+                name: user_name,
+                email: user_email,
+                count:user_count
+            });
+        }
+
+        function read_user(){
+            data = firebase.database().ref('users/' + user_id).val()
+            console.log(data)
+        }
+
+        function update_user(){
+            firebase.database().ref('users/' + user_id + 'count/').update(++count)
+        }   
+
+        window.onload = () => {
+            delete_user = document.createElement("BUTTON")
+            delete_user.innerText = "apagar usuário"
+            delete_user.setAttribute("onclick", "delete_user()")
+            document.body.appendChild(delete_user)
+            add_user = document.createElement("BUTTON")
+            add_user.innerText = "adicionar usuário"
+            add_user.setAttribute("onclick", "create_user()")
+            read_user = document.createElement("BUTTON")
+            read_user.innerText = "ler dados de usuário"
+            read_user.setAttribute("onclick", "read_user()")
+            document.body.appendChild(read_user)
+            update_user = document.createElement("BUTTON")
+            update_user.innerText = "atualizar dados de usuário"
+            update_user.setAttribute("onclick", "update_user()")
+            document.body.appendChild(update_user)
+            document.body.appendChild(add_user)
+
+        }
+
+        
+
+      
+
+
+
+
+    </script>
+
+</head>
+
+<body>
+    <h1>CRUD firebase - Banco de dados 2</h1>
+
+
+</body>
+
+</html>
