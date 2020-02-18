@@ -25,55 +25,63 @@
             appId: "1:1065725358342:web:b57f391445b9468d6c2e87"
         };
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        var database = firebase.database();
+        firebase.initializeApp(firebaseConfig)
+        var database = firebase.database()
 
 
 
-        function delete_user(){
+        function delete_user() {
             firebase.database().ref('users/' + user_id).remove()
         }
 
-        function create_user(){
+        function create_user() {
             firebase.database().ref('users/' + user_id).set({
                 name: user_name,
                 email: user_email,
-                count:user_count
+                count: user_count
             });
+
+
         }
 
-        function read_user(){
-            data = firebase.database().ref('users/' + user_id).val()
+        function read_user() {
+            data = firebase.database().ref('users/').child(user_id).on("value", function (snapshot, prevChildKey) {
+                var user = snapshot.val();
+                console.log(user.name + "\n" + user.email + "\n" + user.count)
+            });
+
             console.log(data)
         }
 
-        function update_user(){
-            firebase.database().ref('users/' + user_id + 'count/').update(++count)
-        }   
+        function update_user() {
+            firebase.database().ref('users/' + user_id).update({
+                count: ++user_count
+            });
+        }
 
         window.onload = () => {
-            delete_user = document.createElement("BUTTON")
-            delete_user.innerText = "apagar usuário"
-            delete_user.setAttribute("onclick", "delete_user()")
-            document.body.appendChild(delete_user)
+            del_user = document.createElement("BUTTON")
+            del_user.innerText = "apagar usuário"
+            del_user.setAttribute("onclick", "delete_user()")
+            document.body.appendChild(del_user)
             add_user = document.createElement("BUTTON")
             add_user.innerText = "adicionar usuário"
             add_user.setAttribute("onclick", "create_user()")
-            read_user = document.createElement("BUTTON")
-            read_user.innerText = "ler dados de usuário"
-            read_user.setAttribute("onclick", "read_user()")
-            document.body.appendChild(read_user)
-            update_user = document.createElement("BUTTON")
-            update_user.innerText = "atualizar dados de usuário"
-            update_user.setAttribute("onclick", "update_user()")
-            document.body.appendChild(update_user)
+            read_user_buttton = document.createElement("BUTTON")
+            read_user_buttton.innerText = "ler dados de usuário"
+            read_user_buttton.setAttribute("onclick", "read_user()")
+            document.body.appendChild(read_user_buttton)
+            update_user_buttton = document.createElement("BUTTON")
+            update_user_buttton.innerText = "atualizar dados de usuário"
+            update_user_buttton.setAttribute("onclick", "update_user()")
+            document.body.appendChild(update_user_buttton)
             document.body.appendChild(add_user)
 
         }
 
-        
 
-      
+
+
 
 
 
